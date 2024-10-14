@@ -14,7 +14,7 @@ class Parser
   ]
 
   def initialize
-    @browser = Ferrum::Browser.new(headless: false)
+    @browser = Ferrum::Browser.new(process_timeout: 20) # headless: false
   end
 
   def update_resume
