@@ -15,8 +15,10 @@ class Parser
 
   def initialize
     @browser = Ferrum::Browser.new(
-    process_timeout: 20,
-    browser_path: "/snap/bin/chromium") # headless: false
+      process_timeout: 20,
+      headless: false
+      #browser_path: "/snap/bin/chromium"
+    )
   end
 
   def update_resume
@@ -25,9 +27,18 @@ class Parser
     (login_with_code || return) unless cookies # login_with_pass
 
     save_cookies("cookies.json")
+    sleep rand(1...3)
+    @browser.goto(LINKS_AFTER_LOGIN.sample)
+    sleep rand(3...5)
     begin
       my_resume_link = @browser.at_css('a[data-qa="mainmenu_myResumes"]')
+      if my_resume_link.nil?
+        my_resume_link = @browser.at_css('a[data-qa="mainmenu_myResumes"]')
+        sleep rand(5..7)
+      end
+
       if my_resume_link.nil? && @browser.at_css('a[data-qa="mainmenu_applicantProfile"]').nil?
+        binding.pry
         login_with_code
         save_cookies("cookies.json")
       end
@@ -95,7 +106,7 @@ class Parser
     rescue => e
       @browser.goto(LINKS_BEFORE_LOGIN.sample)
       wait = rand(1..3)
-      TelegramNotify.call "Ошибка в методе login: #{e.message}.\nВечная загрузка...\nЖдем #{wait} сек..."
+      TelegramNotify.call "Ошибка в методе #{__method__}: #{e.message}.\nВечная загрузка...\nЖдем #{wait} сек..."
       retry
     end
     sleep rand(1..3)
@@ -121,14 +132,14 @@ class Parser
     rescue => e
       @browser.goto(LINKS_BEFORE_LOGIN.sample)
       wait = rand(1..3)
-      TelegramNotify.call "Ошибка в методе login: #{e.message}.\nВечная загрузка...\nЖдем #{wait} сек..."
+      TelegramNotify.call "Ошибка в методе #{__method__}: #{e.message}.\nВечная загрузка...\nЖдем #{wait} сек..."
       retry
     end
     sleep rand(1..3)
 
     submit_button = @browser.at_css('button[data-qa="account-signup-submit"]')
     submit_button.click
-    sleep rand(7..10)
+    sleep rand(10..12)
 
     code_field = @browser.at_css('input[data-qa="otp-code-input"]')
     
