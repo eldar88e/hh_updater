@@ -2,4 +2,4 @@
 /.env*
 /.idea
 .DS_Store
-cookies.json 
+./cookies.json 
