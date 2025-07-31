@@ -57,6 +57,7 @@ class Parser
 
     update_btn = @browser.at_css('button[data-qa="resume-update-button resume-update-button_actions"]')
     if update_btn
+      @browser.execute("window.scrollBy(0, 400);")
       update_btn.click
       puts 'Resume has been updated successfully.'
     else
