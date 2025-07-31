@@ -21,20 +21,8 @@ class Parser
     @browser = Ferrum::Browser.new(
       process_timeout: 20,
       headless: ARGV.include?("--headless"),
-      browser_path: "/usr/bin/chromium-browser",
-      browser_options: { "no-sandbox": nil },
-      # browser_options: {
-      #   "args" => [
-      #     "--headless=new", # или просто "--headless"
-      #     "--no-sandbox",
-      #     "--disable-gpu",
-      #     "--disable-software-rasterizer",
-      #     "--disable-dev-shm-usage",
-      #     "--remote-debugging-port=9222",
-      #     "--window-size=1280,800"
-      #   ]
-      # },
-      # logger: STDOUT
+      # browser_path: "/usr/bin/chromium-browser",
+      browser_options: { "no-sandbox": nil }
     )
   end
 
@@ -45,26 +33,20 @@ class Parser
     sleep rand(3..5)
     stop_browser
 
-    # local_storage = load_local_storage
-    # if local_storage
-    #   @browser.goto('https://hh.ru') 
-    #   sleep rand(1..3)
-    # end
-
     login_with_pass unless authorized?
 
-    puts 'Update resume...'
     update_resume
     save_cookies
-    # save_local_storage
     puts 'Success'
   rescue => e
     puts e.message
   ensure
-    @browser.quit # Закрываем браузер
+    @browser.quit
   end
 
   def update_resume(try = 3)
+    puts 'Update resume...'
+
     @atempt_upd ||= 0
 
     if !@browser.url.include?(RESUME_LINK)
