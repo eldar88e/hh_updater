@@ -1,0 +1,20 @@
+services:
+  app:
+    image: app
+    build: .
+    env_file: ./.env
+    container_name: app
+    hostname: app
+    command: ['bundle', 'exec', 'ruby', 'hh.rb', '--headless']
+    # command: tail -f /dev/null
+    volumes:
+      - gems:/usr/local/bundle
+    networks:
+      - net
+    restart: "no"
+
+volumes:
+  gems:
+
+networks:
+  net:
