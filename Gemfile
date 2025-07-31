@@ -1,17 +1,15 @@
-# frozen_string_literal: true
-
 source "https://rubygems.org"
 
-# gem "rails"
+ruby '3.4.4'
 
-gem "ferrum", "~> 0.15"
+gem "ferrum", "~> 0.17"
 
-gem "pry", "~> 0.14.2"
+gem "pry", "~> 0.15"
 
 gem "mail", "~> 2.8"
 
-gem "telegram-bot-ruby", "~> 2.0"
+gem "telegram-bot-ruby", "~> 2.4"
 
-gem "json", "~> 2.7"
+gem "json", "~> 2.13"
 
 gem "dotenv", "~> 3.1"
