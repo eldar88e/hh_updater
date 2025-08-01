@@ -8,7 +8,7 @@ class Bot
       bot.listen do |message|
         case message
         # when Telegram::Bot::Types::CallbackQuery
-        when Telegram::Bot::Types::Message && message.text
+        when Telegram::Bot::Types::Message
           handle_message(bot, message)
         else
           bot.api.send_message(chat_id: message.from.id, text: "Не верные данные!")
@@ -25,6 +25,11 @@ class Bot
   private
 
   def handle_message(bot, message)
+    if !message.text
+      bot.api.send_message(chat_id: message.from.id, text: "Не верные данные!")
+      return
+    end
+
     case message.text
     when '/start'
       bot.api.send_message(chat_id: message.chat.id, text: 'Hello!')
