@@ -6,6 +6,8 @@ class TelegramNotify
   end
 
   def self.call(msg)
+    return if @message.nil? || @message.strip.size == 0
+
     new(msg).tg_send
   end
 

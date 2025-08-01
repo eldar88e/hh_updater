@@ -7,9 +7,8 @@ class Bot
     Telegram::Bot::Client.run(@token) do |bot|
       bot.listen do |message|
         case message
-        when Telegram::Bot::Types::CallbackQuery
-          
-        when Telegram::Bot::Types::Message
+        # when Telegram::Bot::Types::CallbackQuery
+        when Telegram::Bot::Types::Message && message.text
           handle_message(bot, message)
         else
           bot.api.send_message(chat_id: message.from.id, text: "Не верные данные!")
@@ -20,7 +19,7 @@ class Bot
     try -= 1
     puts e.message
     sleep 5
-    retry if try > 0
+    try > 0 ? retry : raise e
   end
 
   private
@@ -32,8 +31,9 @@ class Bot
       #send_keyboard(bot, message.chat.id)
     when '/upd_resume'
       bot.api.send_message(chat_id: message.chat.id, text: 'Updating resume...')
-      parser = Parser.new
-      parser.update_resume
+      resume_updater = ResumeUpdater.new
+      resume_updater.process
+      bot.api.send_message(chat_id: message.chat.id, text: 'Updating process end.')
     else
       bot.api.send_message(chat_id: message.chat.id, text: 'Не верный текст!')
     end

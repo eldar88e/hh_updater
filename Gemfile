@@ -8,7 +8,7 @@ gem "ferrum", "~> 0.17"
 
 # gem "mail", "~> 2.8"
 
-# gem "telegram-bot-ruby", "~> 2.4"
+gem "telegram-bot-ruby", "~> 2.4"
 
 gem "json", "~> 2.13"
 
