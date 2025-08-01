@@ -5,13 +5,13 @@ services:
     env_file: ./.env
     container_name: app
     hostname: app
-    command: ['bundle', 'exec', 'ruby', 'run.rb', '--headless']
+    command: ['bundle', 'exec', 'ruby', 'run.rb', '--headless', '--bot']
     # command: tail -f /dev/null
     volumes:
       - gems:/usr/local/bundle
     networks:
       - net
-    restart: "no"
+    restart: always
 
 volumes:
   gems:

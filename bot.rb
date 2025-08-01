@@ -34,6 +34,10 @@ class Bot
       resume_updater = ResumeUpdater.new
       resume_updater.process
       bot.api.send_message(chat_id: message.chat.id, text: 'Updating process end.')
+    when '/response_vacancy'
+      bot.api.send_message(chat_id: message.chat.id, text: 'Click vacancies...')
+      response_vacancies = ResponseVacancies.new
+      response_vacancies.process
     else
       bot.api.send_message(chat_id: message.chat.id, text: 'Не верный текст!')
     end

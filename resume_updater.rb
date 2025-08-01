@@ -38,7 +38,7 @@ class ResumeUpdater < HeadHunter
   rescue => e
     if @atempt_upd <= try
       wait = rand(1..3)
-      puts "Error in method #{__method__}: #{e.message}.\nAwait #{wait} s.\n#{e}"
+      puts "Error in method: #{__method__}\n#{e.message}.\nAwait #{wait}s."
       sleep wait
       stop_browser
       @atempt_upd += 1

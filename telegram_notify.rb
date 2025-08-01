@@ -6,7 +6,7 @@ class TelegramNotify
   end
 
   def self.call(msg)
-    return if @message.nil? || @message.strip.size == 0
+    return if msg.nil? || msg.strip.size == 0
 
     new(msg).tg_send
   end
@@ -22,7 +22,6 @@ class TelegramNotify
         end
       rescue => e
         puts e.message
-        binding.pry
       end
     end
 
