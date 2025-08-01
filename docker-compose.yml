@@ -5,7 +5,7 @@ services:
     env_file: ./.env
     container_name: app
     hostname: app
-    command: ['bundle', 'exec', 'ruby', 'hh.rb', '--headless']
+    command: ['bundle', 'exec', 'ruby', 'run.rb', '--headless']
     # command: tail -f /dev/null
     volumes:
       - gems:/usr/local/bundle
