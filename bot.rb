@@ -19,7 +19,7 @@ class Bot
     try -= 1
     puts e.message
     sleep 5
-    try > 0 ? retry : raise e
+    try > 0 ? retry : raise(e)
   end
 
   private
