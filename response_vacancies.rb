@@ -51,7 +51,7 @@ class ResponseVacancies < HeadHunter
       end
 
       scroll_to_node(vacancy)
-      # response_btn.click
+      response_btn.click
       count += 1
       sleep rand(5..7)
     end
