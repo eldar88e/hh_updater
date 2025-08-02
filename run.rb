@@ -1,10 +1,11 @@
 require 'ferrum'
-# require 'pry'
+require 'pry'
 # require 'net/imap'
 # require 'mail'
 require 'telegram/bot'
 require 'json'
 require 'dotenv'
+
 Dotenv.load
 
 require_relative 'bot'

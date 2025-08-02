@@ -32,6 +32,10 @@ class ResponseVacancies < HeadHunter
     run_search
 
     click_vacancies
+  rescue => e
+    puts e
+    puts "\n==============\n"
+    binding.pry
   end
 
   private

@@ -1,5 +1,7 @@
 services:
   app:
+    tty: true
+    stdin_open: true
     image: app
     build: .
     env_file: ./.env
