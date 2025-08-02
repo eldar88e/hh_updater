@@ -32,10 +32,6 @@ class ResponseVacancies < HeadHunter
     run_search
 
     click_vacancies
-  rescue => e
-    puts e
-    puts "\n==============\n"
-    binding.pry
   end
 
   private
@@ -62,6 +58,10 @@ class ResponseVacancies < HeadHunter
     msg = "Click #{count} vacancies."
     msg += "\nSkipped #{skipped} vacancies" if skipped.positive?
     TelegramNotify.call msg
+  rescue => e
+    puts e
+    puts "\n==============\n"
+    binding.pry
   end
 
   def fill_search_input(try=3)
