@@ -39,6 +39,7 @@ class ResponseVacancies < HeadHunter
   def click_vacancies
     count = 0
     skipped = 0
+    error = 0
     stop_browser
     vacancies = @browser.css('div[data-qa="vacancy-serp__vacancy"]')
     vacancies.each do |vacancy|
@@ -54,13 +55,14 @@ class ResponseVacancies < HeadHunter
       response_btn.click
       count += 1
       sleep rand(5..7)
-    rescue => e
-      puts e
-      puts "\n==============\n"
-      binding.pry
+    rescue Ferrum::NodeNotFoundError
+      # Вся карточка пропала, пропускаем
+      error += 1
+      next
     end
     msg = "Click #{count} vacancies."
     msg += "\nSkipped #{skipped} vacancies" if skipped.positive?
+    msg += "\nError #{error} vacancies" if error.positive?
     TelegramNotify.call msg
   end
 
