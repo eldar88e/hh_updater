@@ -11,6 +11,24 @@ class ResponseVacancies < HeadHunter
     on: ['Удалённо']
   }
   SKIP_WORD = ['lead']
+  MSG = <<~MSG
+    Здравствуйте!
+
+    Это автоматический отклик, отправленный моим собственным парсером для вакансий Ruby-разработчика.
+    Я специально реализовал этот инструмент для автоматизации поиска интересных предложений.
+
+    Если такой способ отклика для вас неудобен или неуместен, прошу прощения за беспокойство.
+
+    Немного обо мне:
+    — Ruby/Rails разработчик, коммерческий опыт более 5-ти лет
+    — Postgres, Sidekiq, Redis, Grafana, S3, Docker-compose, интеграции API
+    — React, TypeScript, Hotwire, Stimulus
+    — Работаю с Git, CI, RSpec, Linux, опыт в распределённых командах
+
+    Если заинтересовала моя кандидатура, буду рад пообщаться и обсудить детали.
+
+    Спасибо за внимание!
+  MSG
 
   def initialize
     super
@@ -53,6 +71,7 @@ class ResponseVacancies < HeadHunter
 
       scroll_to_node(vacancy)
       response_btn.click
+      write_message(vacancy)
       count += 1
       sleep rand(5..7)
     rescue Ferrum::NodeNotFoundError
@@ -126,5 +145,29 @@ class ResponseVacancies < HeadHunter
     else
       raise e
     end
+  end
+
+  def write_message(vacancy)
+    chat_btn = vacancy.at_xpath('.//button[contains(., "Чат")]')
+    return unless chat_btn
+
+    chat_btn.click
+    iframe = @browser.at_css('iframe.chatik-integration-iframe_loaded')
+    return unless iframe
+
+    frame = iframe.frame
+    msg_with_response = frame.at_css('span[data-qa="chatik-chat-message-applicant-action-text"]')
+    msg_with_response.click if msg_with_response
+    textarea = frame.at_css('textarea[data-qa="chatik-new-message-text"]')
+    textarea.focus
+    MSG.each_char do |c|
+      if c == "\n"
+        textarea.type(:Shift, :Enter)
+      else
+        textarea.type(c)
+      end
+      sleep rand(0.05..0.07)
+    end
+    frame.at_css('button[data-qa="chatik-do-send-message"]').click
   end
 end

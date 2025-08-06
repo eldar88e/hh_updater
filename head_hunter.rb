@@ -3,21 +3,23 @@ class HeadHunter
   HOME_PATH = 'https://hh.ru'.freeze
 
   def initialize
-    @browser = Ferrum::Browser.new(
+    options = {
       process_timeout: 40,
       headless: ARGV.include?("--headless"),
-      browser_path: "/usr/bin/chromium-browser",
       browser_options: {
         "no-sandbox": nil,
         "disable-gpu": nil,
         "disable-software-rasterizer": nil,
         "disable-dev-shm-usage": nil,
-        "remote-debugging-port": 9222,
+        "remote-debugging-port": 9222
       }
-    )
+    }
+    options[:browser_path] = ENV["CHROMIUM_PATH"] if ENV["CHROMIUM_PATH"]
+
+    @browser = Ferrum::Browser.new(**options)
+
     user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
     @browser.headers.set({"User-Agent" => user_agent})
-    @method_name = :empty_method
   end
 
   def process
@@ -31,7 +33,8 @@ class HeadHunter
 
     authorized?
 
-    send @method_name
+    send @method_name || :empty_method
+    click_cookies
     save_cookies
     puts "Success #{@method_name}."
   rescue => e
@@ -42,6 +45,11 @@ class HeadHunter
   end
 
   private
+
+  def click_cookies
+    cookies_btn = @browser.at_css('button[data-qa="cookies-policy-informer-accept"]')
+    cookies_btn.click if cookies_btn
+  end
 
   def login_with_pass(try = 3)
     @atempt ||= 0
