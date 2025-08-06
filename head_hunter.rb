@@ -3,6 +3,7 @@ class HeadHunter
   HOME_PATH = 'https://hh.ru'.freeze
 
   def initialize
+    binding.pry
     @browser = Ferrum::Browser.new(
       process_timeout: 20,
       headless: ARGV.include?("--headless"),
