@@ -27,7 +27,9 @@ class HeadHunter
     sleep rand(3..5)
     stop_browser
 
-    login_with_pass unless authorized?
+    # login_with_pass unless authorized?
+
+    authorized?
 
     send @method_name
     save_cookies
@@ -95,13 +97,23 @@ class HeadHunter
     @browser.execute("window.stop();")
   end
 
-  def authorized?
+  def authorized?(try = 3)
+    @atempt_a ||= 0
     node = 'div[data-qa="mainmenu_profileAndResumes"]'
-    !!@browser.at_css(node) || begin
-                                 sleep rand(5..7)
-                                 stop_browser
-                                 !!@browser.at_css(node)
-                               end
+    return true if !!@browser.at_css(node)
+
+    raise "Error authorize"
+  rescue => e
+    if @atempt_a <= try
+      wait = rand(5..7)
+      puts "Error in method: #{__method__}: #{e.message}.\nAwait #{wait}s."
+      sleep wait
+      stop_browser
+      @atempt_a += 1
+      retry
+    else
+      raise e
+    end
   end
 
   def save_cookies

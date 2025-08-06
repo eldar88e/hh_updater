@@ -4,6 +4,7 @@ require_relative 'head_hunter'
 
 class ResponseVacancies < HeadHunter
   RESUME_LINK = "#{HOME_PATH}/search/vacancy".freeze
+  RESPONSE_BTN = './/a[@data-qa="vacancy-serp__vacancy_response" and contains(., "Откликнуться")]'.freeze
   SEARCH_WORD = 'Ruby'.freeze
   SEARCH_PARAMS = {
     off: ['Анапа', 'описании вакансии', 'названии компании'],
@@ -43,15 +44,12 @@ class ResponseVacancies < HeadHunter
     skipped = 0
     error = 0
     stop_browser
-    vacancies = @browser.css('div[data-qa="vacancy-serp__vacancy"]')
-    vacancies.each do |vacancy|
-      response_btn = vacancy.at_xpath('.//a[@data-qa="vacancy-serp__vacancy_response" and contains(., "Откликнуться")]')
-      next if response_btn.nil?
+    vacancies     = @browser.css('div[data-qa="vacancy-serp__vacancy"]')
+    new_vacancies = vacancies.select { |i| !i.at_xpath(RESPONSE_BTN).nil? }
 
-      if SKIP_WORD.any? { |i| vacancy.at_css('h2').text.downcase.include?(i) }
-        skipped += 1
-        next
-      end
+    new_vacancies.each do |vacancy|
+      response_btn = vacancy.at_xpath(RESPONSE_BTN)
+      (skipped += 1) && next if SKIP_WORD.any? { |i| vacancy.at_css('h2').text.downcase.include?(i) }
 
       scroll_to_node(vacancy)
       response_btn.click
@@ -62,7 +60,7 @@ class ResponseVacancies < HeadHunter
       error += 1
       next
     end
-    msg = "Click #{count} vacancies."
+    msg = "Click #{count} of #{vacancies.size} vacancies."
     msg += "\nSkipped #{skipped} vacancies" if skipped.positive?
     msg += "\nError #{error} vacancies" if error.positive?
     TelegramNotify.call msg
