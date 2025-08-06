@@ -25,6 +25,7 @@ class HeadHunter
     save_cookies
     puts "Success #{@method_name}."
   rescue => e
+    binding.pry
     puts e.full_message
     TelegramNotify.call "Error: #{e.message}."
   ensure
