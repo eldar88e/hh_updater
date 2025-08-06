@@ -5,6 +5,7 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     base64 (0.3.0)
     bigdecimal (3.2.2)
+    coderay (1.1.3)
     concurrent-ruby (1.3.5)
     dotenv (3.1.8)
     dry-core (1.1.0)
@@ -46,9 +47,13 @@ GEM
     ice_nine (0.11.2)
     json (2.13.2)
     logger (1.7.0)
+    method_source (1.1.0)
     multipart-post (2.4.1)
     net-http (0.6.0)
       uri
+    pry (0.15.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
     public_suffix (6.0.2)
     telegram-bot-ruby (2.4.0)
       dry-struct (~> 1.6)
@@ -70,6 +75,7 @@ DEPENDENCIES
   dotenv (~> 3.1)
   ferrum (~> 0.17)
   json (~> 2.13)
+  pry (~> 0.15)
   telegram-bot-ruby (~> 2.4)
 
 RUBY VERSION

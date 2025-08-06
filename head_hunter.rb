@@ -88,12 +88,12 @@ class HeadHunter
   end
 
   def authorized?
-    check_text = "//*[contains(text(), 'Мои резюме')]"
-    return true if !!@browser.at_xpath(check_text)
-
-    sleep rand(5..7)
-    stop_browser
-    !!@browser.at_xpath(check_text)
+    node = 'div[data-qa="mainmenu_profileAndResumes"]'
+    !!@browser.at_css(node) || begin
+                                 sleep rand(5..7)
+                                 stop_browser
+                                 !!@browser.at_css(node)
+                               end
   end
 
   def save_cookies
