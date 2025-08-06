@@ -9,9 +9,6 @@ RUN apk --update add --no-cache \
     libffi-dev \
     ruby-dev \
     chromium \
-    && rm -rf /var/cache/apk/*
-
-RUN apk add --no-cache \
     nss \
     freetype \
     harfbuzz \
@@ -21,12 +18,8 @@ RUN apk add --no-cache \
     && rm -rf /var/cache/apk/*
 
 WORKDIR /app
-
 COPY Gemfile* ./
-
 RUN gem update --system 3.6.9
 RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
 RUN bundle check || bundle install --jobs=2 --retry=3
 RUN bundle clean --force
-
-COPY . .

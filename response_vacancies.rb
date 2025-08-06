@@ -1,3 +1,5 @@
+# @browser.evaluate("navigator.userAgent") check user agent
+
 require_relative 'head_hunter'
 
 class ResponseVacancies < HeadHunter

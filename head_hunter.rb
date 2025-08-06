@@ -3,13 +3,20 @@ class HeadHunter
   HOME_PATH = 'https://hh.ru'.freeze
 
   def initialize
-    binding.pry
     @browser = Ferrum::Browser.new(
-      process_timeout: 20,
+      process_timeout: 40,
       headless: ARGV.include?("--headless"),
       browser_path: "/usr/bin/chromium-browser",
-      browser_options: { "no-sandbox": nil }
+      browser_options: {
+        "no-sandbox": nil,
+        "disable-gpu": nil,
+        "disable-software-rasterizer": nil,
+        "disable-dev-shm-usage": nil,
+        "remote-debugging-port": 9222,
+      }
     )
+    user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+    @browser.headers.set({"User-Agent" => user_agent})
     @method_name = :empty_method
   end
 
@@ -26,7 +33,6 @@ class HeadHunter
     save_cookies
     puts "Success #{@method_name}."
   rescue => e
-    binding.pry
     puts e.full_message
     TelegramNotify.call "Error: #{e.message}."
   ensure
