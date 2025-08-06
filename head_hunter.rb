@@ -6,7 +6,7 @@ class HeadHunter
     @browser = Ferrum::Browser.new(
       process_timeout: 20,
       headless: ARGV.include?("--headless"),
-      # browser_path: "/usr/bin/chromium-browser",
+      browser_path: "/usr/bin/chromium-browser",
       browser_options: { "no-sandbox": nil }
     )
     @method_name = :empty_method
