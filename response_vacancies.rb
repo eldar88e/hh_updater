@@ -71,7 +71,7 @@ class ResponseVacancies < HeadHunter
 
       scroll_to_node(vacancy)
       response_btn.click
-      sleep 1
+      sleep 3
       write_message(vacancy)
       count += 1
       sleep rand(5..7)
@@ -153,14 +153,14 @@ class ResponseVacancies < HeadHunter
     return unless chat_btn
 
     chat_btn.click
-    sleep 1
+    sleep 3
     iframe = @browser.at_css('iframe.chatik-integration-iframe_loaded')
     return unless iframe
 
     frame = iframe.frame
     msg_with_response = frame.at_css('span[data-qa="chatik-chat-message-applicant-action-text"]')
     msg_with_response.click if msg_with_response
-    sleep 1
+    sleep 3
     textarea = frame.at_css('textarea[data-qa="chatik-new-message-text"]')
     textarea.focus
     MSG.each_char do |c|
