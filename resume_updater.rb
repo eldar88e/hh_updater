@@ -14,14 +14,14 @@ class ResumeUpdater < HeadHunter
     @atempt_upd ||= 0
 
     if !@browser.url.include?(RESUME_LINK)
-      resume_btn = @browser.at_css('a[data-qa="link"]')
+      resume_btn = @browser.at_css('a[data-qa="profileAndResumes-button"]')
       resume_btn.click
       sleep rand(1..3)
     end
 
     update_btn = @browser.at_css('button[data-qa="resume-update-button resume-update-button_actions"]')
     if update_btn
-      @browser.execute("window.scrollBy(0, 400);")
+      scroll_to_node(update_btn)
       update_btn.click
       puts msg = 'Resume has been updated successfully.'
       TelegramNotify.call msg
