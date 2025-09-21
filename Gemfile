@@ -4,7 +4,7 @@ ruby '3.4.4'
 
 gem "ferrum", "~> 0.17"
 
-gem "pry", "~> 0.15"
+# gem "pry", "~> 0.15"
 
 # gem "mail", "~> 2.8"
 
