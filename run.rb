@@ -1,5 +1,5 @@
 require 'ferrum'
-require 'pry'
+# require 'pry'
 # require 'net/imap'
 # require 'mail'
 require 'telegram/bot'
