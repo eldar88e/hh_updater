@@ -50,7 +50,9 @@ class ResponseVacancies < HeadHunter
 
     search_params
 
-    run_search
+    search_btn = @browser.at_css('button[data-qa="search-drawer-filters-submit"]')
+    search_btn.click
+    sleep rand(3..5)
 
     click_vacancies
   end
@@ -115,6 +117,9 @@ class ResponseVacancies < HeadHunter
   end
 
   def search_params(try=3)
+    search_btn = @browser.at_css('button[data-qa="header-search-filters-button"]')
+    search_btn.click
+    sleep rand(1..3)
     @serch_repit ||= 0
     SEARCH_PARAMS.each do |key, value|
       value.flatten.each do |param|
