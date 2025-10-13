@@ -30,7 +30,7 @@ class HeadHunter
     stop_browser
 
     # login_with_pass unless authorized?
-
+    # binding.pry
     authorized?
 
     send @method_name || :empty_method
