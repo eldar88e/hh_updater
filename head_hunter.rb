@@ -106,18 +106,18 @@ class HeadHunter
   end
 
   def authorized?(try = 3)
-    @atempt_a ||= 0
+    @attempt_a ||= 0
     node = 'div[data-qa="mainmenu_profileAndResumes"]'
     return true if !!@browser.at_css(node)
 
     raise "Error authorize"
   rescue => e
-    if @atempt_a <= try
-      wait = rand(5..7)
+    if @attempt_a <= try
+      wait = rand(7..9) * (@attempt_a + 1)
       puts "Error in method: #{__method__}: #{e.message}.\nAwait #{wait}s."
       sleep wait
       stop_browser
-      @atempt_a += 1
+      @attempt_a += 1
       retry
     else
       raise e
