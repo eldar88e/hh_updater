@@ -3,9 +3,10 @@
 require_relative 'head_hunter'
 
 class ResponseVacancies < HeadHunter
-  RESUME_LINK = "#{HOME_PATH}/search/vacancy".freeze
-  RESPONSE_BTN = './/a[@data-qa="vacancy-serp__vacancy_response" and contains(., "Откликнуться")]'.freeze
-  SEARCH_WORD = 'Ruby'.freeze
+  RESUME_LINK   = "#{HOME_PATH}/search/vacancy".freeze
+  RESPONSE_BTN  = './/a[@data-qa="vacancy-serp__vacancy_response" and contains(., "Откликнуться")]'.freeze
+  SEARCH_BTN    = 'button[data-qa="search-button"]'
+  SEARCH_WORD   = 'Ruby'.freeze
   SEARCH_PARAMS = {
     off: ['Анапа', 'описании вакансии', 'названии компании'],
     on: ['Удалённо']
@@ -49,8 +50,7 @@ class ResponseVacancies < HeadHunter
     run_search
 
     search_params
-
-    search_btn = @browser.at_css('button[data-qa="search-drawer-filters-submit"]')
+    search_btn = @browser.at_css(SEARCH_BTN)
     search_btn.click
     sleep rand(3..5)
 
@@ -110,19 +110,19 @@ class ResponseVacancies < HeadHunter
   end
 
   def run_search
-    search_btn = @browser.at_css('button[data-qa="search-button"]')
+    search_btn = @browser.at_css(SEARCH_BTN)
     scroll_to_node(search_btn)
     search_btn.click
     sleep rand(3..5)
   end
 
   def search_params(try=3)
-    search_btn = @browser.at_css('button[data-qa="header-search-filters-button"]')
+    @serch_repit ||= 0
+    search_btn = @browser.at_css('button[data-qa="search-button"]')
     search_btn.click
     sleep rand(1..3)
-    @serch_repit ||= 0
     SEARCH_PARAMS.each do |key, value|
-      value.flatten.each do |param|
+      value.each do |param|
         node = @browser.at_xpath("//*[@data-qa='cell-left-side'][.//text()[contains(., '#{param}')]]")
         next unless node
 
