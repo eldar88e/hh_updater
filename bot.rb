@@ -9,9 +9,9 @@ class Bot
         case message
         # when Telegram::Bot::Types::CallbackQuery
         when Telegram::Bot::Types::Message
-          handle_message(bot, message)
+          handle_message(bot, message) if message.from.id == ENV.fetch('CHAT_ID').to_i
         else
-          bot.api.send_message(chat_id: message.from.id, text: "Не верные данные!")
+          bot.api.send_message(chat_id: message.from.id, text: 'Не верные данные!')
         end
       end
     end
@@ -25,26 +25,27 @@ class Bot
   private
 
   def handle_message(bot, message)
+    chat_id = ENV.fetch('CHAT_ID').to_i # message.from.id
     if !message.text
-      bot.api.send_message(chat_id: message.from.id, text: "Не верные данные!")
+      bot.api.send_message(chat_id: chat_id, text: 'Не верные данные!')
       return
     end
 
     case message.text
     when '/start'
-      bot.api.send_message(chat_id: message.chat.id, text: 'Hello!')
+      bot.api.send_message(chat_id: chat_id, text: 'Hello!')
       #send_keyboard(bot, message.chat.id)
     when '/upd_resume'
-      bot.api.send_message(chat_id: message.chat.id, text: 'Updating resume...')
+      bot.api.send_message(chat_id: chat_id, text: 'Updating resume...')
       resume_updater = ResumeUpdater.new
       resume_updater.process
-      bot.api.send_message(chat_id: message.chat.id, text: 'Updating process end.')
+      bot.api.send_message(chat_id: chat_id, text: 'Updating process end.')
     when '/response_vacancy'
-      bot.api.send_message(chat_id: message.chat.id, text: 'Click vacancies...')
+      bot.api.send_message(chat_id: chat_id, text: 'Click vacancies...')
       response_vacancies = ResponseVacancies.new
       response_vacancies.process
     else
-      bot.api.send_message(chat_id: message.chat.id, text: 'Не верный текст!')
+      bot.api.send_message(chat_id: chat_id, text: 'Не верный текст!')
     end
   end
 end
