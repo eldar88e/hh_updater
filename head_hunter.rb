@@ -83,11 +83,8 @@ class HeadHunter
 
     raise "Have captcha!" if @browser.at_css('div:not(.g-hidden) img[data-qa="account-captcha-picture"]')
 
-    if authorized?
-      save_cookies
-    else
-      raise "Error authorize"
-    end
+    authorized?
+    save_cookies
   rescue => e
     if @atempt <= try && e.message != 'Have captcha!'
       wait = rand(5..7)
@@ -107,21 +104,17 @@ class HeadHunter
 
   def authorized?(try = 3)
     @attempt_a ||= 0
-    node = 'div[data-qa="mainmenu_profileAndResumes"]'
-    return true if !!@browser.at_css(node)
-
-    raise "Error authorize"
+    node = 'span[data-qa="mainmenu_profileAndResumes"]'
+    @browser.at_css(node) || raise('Error authorize')
   rescue => e
-    if @attempt_a <= try
-      wait = rand(7..9) * (@attempt_a + 1)
-      puts "Error in method: #{__method__}: #{e.message}.\nAwait #{wait}s."
-      sleep wait
-      stop_browser
-      @attempt_a += 1
-      retry
-    else
-      raise e
-    end
+    raise e if @attempt_a > try
+
+    wait = rand(7..9) * (@attempt_a + 1)
+    puts "Error in method: #{__method__}: #{e.message}.\nAwait #{wait}s."
+    sleep wait
+    stop_browser
+    @attempt_a += 1
+    retry
   end
 
   def save_cookies
