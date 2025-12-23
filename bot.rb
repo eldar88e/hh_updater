@@ -45,7 +45,9 @@ class Bot
       response_vacancies = ResponseVacancies.new
       response_vacancies.process
     else
-      bot.api.send_message(chat_id: chat_id, text: 'Не верный текст!')
+      msg = 'Не верный текст!'
+      msg += "\n\nВведите текст:\n/response_vacancy - Откликнуться на вакансии\n/upd_resume - Обновить резюме"
+      bot.api.send_message(chat_id: chat_id, text: msg)
     end
   end
 end
