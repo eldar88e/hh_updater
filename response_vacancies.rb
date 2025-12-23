@@ -120,7 +120,7 @@ class ResponseVacancies < HeadHunter
     @serch_repit ||= 0
     search_btn = @browser.at_css('button[data-qa="search-button"]')
     search_btn.click
-    sleep rand(1..3)
+    sleep rand(3..5)
     SEARCH_PARAMS.each do |key, value|
       value.each do |param|
         node = @browser.at_xpath("//*[@data-qa='cell-left-side'][.//text()[contains(., '#{param}')]]")
