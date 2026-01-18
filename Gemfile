@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby '3.4.6'
+ruby '3.4.8'
 
 gem "ferrum", "~> 0.17"
 gem "telegram-bot-ruby", "~> 2.4"
