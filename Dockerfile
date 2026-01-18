@@ -1,8 +1,6 @@
 # ---------- base ----------
 FROM ruby:3.4.8-alpine3.23 AS base
 
-RUN sed -i 's|dl-cdn.alpinelinux.org|mirror.cloudflare.alpinelinux.org|g' /etc/apk/repositories
-
 WORKDIR /app
 
 # ---------- build ----------
