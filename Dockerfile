@@ -13,7 +13,8 @@ RUN apk add --no-cache \
     ruby-dev \
     yaml-dev \
     libffi-dev \
-    tzdata
+    tzdata \
+    && rm -rf /var/cache/apk/*
 
 COPY Gemfile Gemfile.lock ./
 
@@ -21,14 +22,10 @@ RUN gem install bundler -v "$(tail -n 1 Gemfile.lock)" \
  && bundle install --jobs=2 --retry=3 \
  && bundle clean --force
 
-RUN apk --update add --no-cache \
-    build-base \
-    yaml-dev \
-    tzdata \
-    libc6-compat \
-    curl \
-    libffi-dev \
-    ruby-dev \
+# ---------- runtime ----------
+FROM base AS app
+
+RUN apk add --no-cache \
     chromium \
     nss \
     freetype \
@@ -36,11 +33,9 @@ RUN apk --update add --no-cache \
     ttf-freefont \
     ca-certificates \
     dumb-init \
+    tzdata \
+    libc6-compat \
+    curl \
     && rm -rf /var/cache/apk/*
 
-WORKDIR /app
-COPY Gemfile* ./
-RUN gem update --system 3.7.2
-RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
-RUN bundle check || bundle install --jobs=2 --retry=3
-RUN bundle clean --force
+COPY --from=build /usr/local/bundle /usr/local/bundle
