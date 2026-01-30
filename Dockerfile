@@ -27,6 +27,7 @@ COPY . .
 FROM base AS app
 
 RUN apk add --no-cache \
+    chromium \
     chromium-swiftshader \
     nss \
     freetype \
