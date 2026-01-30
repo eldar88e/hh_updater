@@ -8,7 +8,6 @@ FROM base AS build
 
 RUN apk add --no-cache \
     build-base \
-    ruby-dev \
     yaml-dev \
     libffi-dev \
     tzdata \
@@ -24,7 +23,7 @@ RUN gem install bundler -v "$(tail -n 1 Gemfile.lock)" \
 FROM base AS app
 
 RUN apk add --no-cache \
-    chromium \
+    chromium-swiftshader \
     nss \
     freetype \
     harfbuzz \

@@ -10,8 +10,8 @@ class HeadHunter
         "no-sandbox": nil,
         "disable-gpu": nil,
         "disable-software-rasterizer": nil,
-        "disable-dev-shm-usage": nil,
-        "remote-debugging-port": 9222
+        "disable-dev-shm-usage": nil
+        # "remote-debugging-port": 9222
       }
     }
     options[:browser_path] = ENV["CHROMIUM_PATH"] if ENV["CHROMIUM_PATH"]
