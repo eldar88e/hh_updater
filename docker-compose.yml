@@ -9,15 +9,15 @@ services:
     hostname: app
     command: ['bundle', 'exec', 'ruby', 'run.rb', '--headless', '--bot']
     # command: tail -f /dev/null
-    volumes:
-      - gems:/usr/local/bundle
-      - .:/app
+#    volumes:
+#      - gems:/usr/local/bundle
+#      - .:/app
     networks:
       - net
     restart: always
 
-volumes:
-  gems:
+#volumes:
+#  gems:
 
 networks:
   net:
