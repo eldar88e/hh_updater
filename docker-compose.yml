@@ -14,7 +14,7 @@ services:
 #      - .:/app
     networks:
       - net
-    restart: always
+    restart: unless-stopped
 
 #volumes:
 #  gems:

@@ -42,3 +42,4 @@ RUN apk add --no-cache \
 WORKDIR /app
 
 COPY --from=build /usr/local/bundle /usr/local/bundle
+COPY --from=build /app /app
