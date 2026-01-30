@@ -10,8 +10,19 @@ class HeadHunter
         "no-sandbox": nil,
         "disable-gpu": nil,
         "disable-software-rasterizer": nil,
-        "disable-dev-shm-usage": nil
+        "disable-dev-shm-usage": nil,
         # "remote-debugging-port": 9222
+
+        # 🔥 optimizations
+        "disable-background-networking": nil,
+        "disable-background-timer-throttling": nil,
+        "disable-backgrounding-occluded-windows": nil,
+        "disable-breakpad": nil,
+        "disable-extensions": nil,
+        "disable-sync": nil,
+        "metrics-recording-only": nil,
+        "no-first-run": nil,
+        "no-default-browser-check": nil
       }
     }
     options[:browser_path] = ENV["CHROMIUM_PATH"] if ENV["CHROMIUM_PATH"]
