@@ -13,6 +13,8 @@ RUN apk add --no-cache \
     tzdata \
     && rm -rf /var/cache/apk/*
 
+WORKDIR /app
+
 COPY Gemfile Gemfile.lock ./
 
 RUN gem install bundler -v "$(tail -n 1 Gemfile.lock)" \
@@ -36,5 +38,7 @@ RUN apk add --no-cache \
     libc6-compat \
     curl \
     && rm -rf /var/cache/apk/*
+
+WORKDIR /app
 
 COPY --from=build /usr/local/bundle /usr/local/bundle
